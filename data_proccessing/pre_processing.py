@@ -138,6 +138,7 @@ def remove_passive_comments(dataframe):
     return dataframe
 
 
+# TODO The patterns here are pretty weak. Work adding edge cases like :fuuuuuck
 def get_hate_matcher(nlp) -> Matcher:
     """A function for storing the patterns we would like to match.
 
