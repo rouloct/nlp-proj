@@ -10,6 +10,8 @@ from spacy.matcher import PhraseMatcher
 ASSETS_DIR = Path(__file__).parent.parent / "assets"
 CORPUS_DIR = Path(__file__).parent.parent / "corpus"
 
+# This could be a class, but will probably end up as just usefull functions
+
 
 def make_binary_classification_doc(row: pd.Series, nlp, categories):
     """A function which converts a pandas series to a doc useable in spaCy training.
