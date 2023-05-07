@@ -154,7 +154,7 @@ def get_hate_matcher(nlp) -> Matcher:
     fuck_pat = [
         {"LOWER": {"IN": ["fuck", "fuk", "fuc", "fuq", "fak", "fucker"]}}]
     fag_pat = [
-        {"LOWER": {"IN": ["gay", "fag", "fagy", "fag", "faggot", "fuggot", "faggie"]}}]
+        {"LOWER": {"IN": ["fag", "fagy", "fag", "faggot", "fuggot", "faggie"]}}]
     trans_pat = [{"LOWER": {"IN": ["trans", "trannie", 'trani', "trany", ""]}}]
     dick_pat = [{"LOWER": {"IN": ["dick", "dicker"]}}]
     bitch_pat = [{"LOWER": {"IN": ["bitch", "biach", "bish"]}}]
