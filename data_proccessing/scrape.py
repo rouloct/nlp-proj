@@ -35,7 +35,7 @@ class Scrape():
         Returns:
             pd.DataFrame: A pandas dataframe with filtered comments
         """
-        pass
+        filter
 
     def get_subreddit_hate_comments(subreddit: str, sortby: str) -> pd.DataFrame:
         """A function which scrapes reddit and gives back a dataframe containing comments that only contain hate words.
