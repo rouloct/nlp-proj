@@ -1,6 +1,6 @@
 import pandas as pd
 
-import data_proccessing
+import data_processing
 
 # from data_proccessing import pre_processing
 # # from utils import utils_one
