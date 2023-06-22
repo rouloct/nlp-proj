@@ -150,9 +150,9 @@ def get_hate_matcher(nlp) -> Matcher:
     Returns:
         Matcher: A Matcher with all of the new patterns added.
     """
-    
+
     jew_pat = [{"LOWER": {"IN": ["jew", "hitler"]}}]
-    violence_pat = [{"LOWER": {"IN": ["waste of life", "kill", "hurt", "trash"]}}]
+    violence_pat = [{"LOWER": {"IN": ["waste of life", "kill", "hurt", "trash", "suicide"]}}]
     pedo_pat = [{"LOWER": {"IN": ["pedo"]}}]
     women_pat = [{"LOWER": {"IN": ["woman", "women", "girls"]}}]
     fat_pat = [{"LOWER": {"IN": ["fat"]}}]
