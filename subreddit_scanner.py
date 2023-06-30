@@ -6,7 +6,6 @@ from data_proccessing import pre_processing as pp
 REQ_HATE_TO_COMMENTS_RATIO = 1/40
 CHECK_HATE_AFTER = 140
 MAX_HATE_PER_POST = 5
-MAX_HATE_PER_SUB = 20
 MAX_COMMENTS_IN_POST_W_NO_HATE = 30
 
 HATE_CSV = 'random_hate.csv'
@@ -21,12 +20,13 @@ reddit = praw.Reddit(client_id='MdsQbwZg54zWz5RRPHiCjA',
 matcher = pp.get_hate_matcher(nlp)
    
    
-def subreddit_scanner(sub_reddit):
-    """Scan through a specific subreddit until either 20 matches are found, or only 1/40 comments find a match, checked after 180 comments. 
+def subreddit_scanner(sub_reddit, matches_to_find = 20):
+    """Scan through a specific subreddit until the desired # of matches are found, or only 1/40 comments find a match, checked after 180 comments. 
     The user decides which comments to add to the .csv.
 
     Args:
         sub_reddit (praw.Subreddit)
+        matches_to_find (int)
 
     Returns:
         int: # of posts scanned.
@@ -62,7 +62,7 @@ def subreddit_scanner(sub_reddit):
                 print(f"\nAdding {len(matches_to_add)} comments then scanning a new subreddit!\n")
                 return posts_in_sub, comments_in_sub, matches_to_add
         
-        if len(all_matches) >= MAX_HATE_PER_SUB:
+        if len(all_matches) >= matches_to_find:
             matches_to_add = user_add_to_list(all_matches, sub_reddit)
             print(f"\nAdding {len(matches_to_add)} comments then scanning a new subreddit!\n")
             return posts_in_sub, comments_in_sub, matches_to_add
@@ -150,8 +150,20 @@ def user_add_to_list(matches, sub_reddit):
 if __name__ == '__main__':
     """ Search through subreddits until the user decides to stop by pressing CTRL+C.
     """
-    random_or_not = input("Would you like to select random subreddits (y) or enter your own (n)? ")
-    print("")
+    random = input("Would you like to select random subreddits (r) or enter your own (o)? ")
+    while random != 'r' and random != 'o':
+        print("Invalid input. try again")
+        random = input("Would you like to select random subreddits (r) or enter your own (o)? ")
+
+    if random == 'r':
+        amount = 0
+        while True or amount < 0:
+            try:
+                amount = int(input("How many matches would you like to find?"))       
+            except ValueError:
+                print("Not an integer! Try again.")
+
+            
     
     total_subs = 0
     total_posts = 0
@@ -159,20 +171,30 @@ if __name__ == '__main__':
     all_matches = []
     try:
         while True:
-            sub = None
-            if random_or_not == 'y': 
-                sub = reddit.random_subreddit()
-            else:
-                sub = reddit.subreddit(input("Enter the name of a subreddit to scan: r/"))
-            
-            total_subs += 1
-            posts_in_sub, comments_in_sub, matches = subreddit_scanner(sub)
-            total_posts += posts_in_sub
-            total_comments += comments_in_sub
-            if len(matches) > 0:
-                all_matches.extend(matches)
+            try:
+                sub = None
+                if random == 'r': 
+                    sub = reddit.random_subreddit()
+                else:
+                    sub = reddit.subreddit(input("Enter the name of a subreddit to scan: r/"))
+                    amount = 0
+                    while amount <= 0:
+                        try:
+                            amount = int(input("How many matches would you like to find? "))       
+                        except ValueError:
+                            print("Not an integer! Try again.")
+                    
+                
+                total_subs += 1
+                posts_in_sub, comments_in_sub, matches = subreddit_scanner(sub, amount)
+                total_posts += posts_in_sub
+                total_comments += comments_in_sub
+                if len(matches) > 0:
+                    all_matches.extend(matches)
+            except Exception:
+                print("An error occured (invalid subreddit?). Try again.")
     except KeyboardInterrupt:
+        # TODO: Sometimes prints "0,1" on a file or blank lines.
         pd.DataFrame(data=all_matches).dropna().to_csv(HATE_CSV, mode='a', index=False)
         print(f"\nScraped {total_comments} comments from {total_posts} posts on {total_subs} subreddits and wrote {len(all_matches)} comments to {HATE_CSV}.")
-    except Exception:
-        print("An error occured (invalid subreddit?). Try again.")
+    
