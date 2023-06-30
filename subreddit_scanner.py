@@ -10,7 +10,6 @@ MAX_COMMENTS_IN_POST_W_NO_HATE = 30
 
 HATE_CSV = 'hate.csv'
 
-
 nlp = spacy.load("en_core_web_sm")
 
 reddit = praw.Reddit(client_id='MdsQbwZg54zWz5RRPHiCjA',
@@ -155,46 +154,37 @@ if __name__ == '__main__':
         print("Invalid input. try again")
         random = input("Would you like to select random subreddits (r) or enter your own (o)? ")
 
-    if random == 'r':
-        amount = 0
-        while True or amount < 0:
-            try:
-                amount = int(input("How many matches would you like to find?"))       
-            except ValueError:
-                print("Not an integer! Try again.")
-
-            
-    
     total_subs = 0
     total_posts = 0
     total_comments = 0
     all_matches = []
-    try:
-        while True:
-            try:
-                sub = None
-                if random == 'r': 
-                    sub = reddit.random_subreddit()
-                else:
-                    sub = reddit.subreddit(input("Enter the name of a subreddit to scan: r/"))
-                    amount = 0
-                    while amount <= 0:
-                        try:
-                            amount = int(input("How many matches would you like to find? "))       
-                        except ValueError:
-                            print("Not d integer! Try again.")
-                    
+    
+    amount = -1
+    while amount < 0:
+        try:
+            amount = int(input("How many matches would you like to find? "))       
+        except ValueError:
+            print("Not an integer! Try again.")
+    sub = reddit.random_subreddit()
+           
+    while True:
+        try:
+            if random == 'o':
+                sub = reddit.subreddit(input("Enter the name of a subreddit to scan: r/"))
+            posts_in_sub, comments_in_sub, matches = subreddit_scanner(sub, amount)
+            total_subs += 1
+        except KeyboardInterrupt:
+            # TODO: Sometimes prints "0,1" on a file or blank lines.
+            if (len(all_matches) > 0):
+                pd.DataFrame(data=all_matches).dropna().to_csv(HATE_CSV, mode='a', index=False)
                 
-                total_subs += 1
-                posts_in_sub, comments_in_sub, matches = subreddit_scanner(sub, amount)
-                total_posts += posts_in_sub
-                total_comments += comments_in_sub
-                if len(matches) > 0:
-                    all_matches.extend(matches)
-            except Exception:
-                print("An error occured (invalid subreddit?). Try again.")
-    except KeyboardInterrupt:
-        # TODO: Sometimes prints "0,1" on a file or blank lines.
-        pd.DataFrame(data=all_matches).dropna().to_csv(HATE_CSV, mode='a', index=False)
-        print(f"\nScraped {total_comments} comments from {total_posts} posts on {total_subs} subreddits and wrote {len(all_matches)} comments to {HATE_CSV}.")
+            print(f"\nScraped {total_comments} comments from {total_posts} posts on {total_subs} subreddits and wrote {len(all_matches)} comments to {HATE_CSV}.")
+            exit()
+            
+        except Exception:
+            print("Invalid subreddit. Try again")
+                
+            
+            
+                
     
