@@ -189,6 +189,36 @@ def get_hate_matcher_phrase(nlp) -> PhraseMatcher:
     return matcher
 
 
+def filter_long_comments(char_limit: int, df: pd.DataFrame) -> pd.DataFrame:
+    """A function for filtering pandas dataframes on the length of the text field
+
+    Args:
+        char_limit (int): The max number of characters
+        df (pd.DataFrame): The dataframe to filter
+
+    Returns:
+        pd.DataFrame: A filtered copy of the previous dataframe
+    """
+    filtered_df = df[df['text'].str.len().between(0, char_limit)]
+    return filtered_df
+
+# TODO Implement this function
+
+
+def filter_reddit_comments(df: pd.DataFrame) -> pd.DataFrame:
+    """This function processes reddit comments for useage in datasets.
+        1. Remove emojies
+        2. Remove blankspace 
+        3. Remove Incoherent text
+        3. Remove Excessively long text
+    Args:
+        df (pd.DataFrame): _description_
+
+    Returns:
+        pd.DataFrame: _description_
+    """
+
+
 # def main():
 #     # Create an nlp object for processing the text
 #     nlp = spacy.load("en_core_web_sm")
