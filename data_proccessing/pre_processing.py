@@ -155,7 +155,7 @@ def get_hate_matcher(nlp) -> Matcher:
     insult_pat = [{"LOWER": {"IN": [ "idiot", "moron", "dumbass", "loser", "scumbag"]}}]
     jew_pat = [{"LOWER": {"IN": ["jew", "hitler"]}}]
     violence_pat = [{"LOWER": {"IN": ["waste of life", "kill", "hurt", "trash", "suicide", "cut", "hang"]}}]
-    pedo_pat = [{"LOWER": {"IN": ["pedo", "kid"]}}]
+    pedo_pat = [{"LOWER": {"IN": ["pedo",]}}]
     women_pat = [{"LOWER": {"IN": ["woman", "women", "girls"]}}]
     fat_pat = [{"LOWER": {"IN": ["fat", "whale", "worthless", "pathetic", "ugly", "fatso"]}}]
     fuck_pat = [
