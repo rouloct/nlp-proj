@@ -165,14 +165,15 @@ if __name__ == '__main__':
             amount = int(input("How many matches would you like to find? "))       
         except ValueError:
             print("Not an integer! Try again.")
-    sub = reddit.random_subreddit()
            
     while True:
         try:
+            sub = reddit.random_subreddit()
             if random == 'o':
                 sub = reddit.subreddit(input("Enter the name of a subreddit to scan: r/"))
             posts_in_sub, comments_in_sub, matches = subreddit_scanner(sub, amount)
             total_subs += 1
+            all_matches.extend(matches)
         except KeyboardInterrupt:
             # TODO: Sometimes prints "0,1" on a file or blank lines.
             if (len(all_matches) > 0):
