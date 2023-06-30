@@ -8,7 +8,7 @@ CHECK_HATE_AFTER = 140
 MAX_HATE_PER_POST = 5
 MAX_COMMENTS_IN_POST_W_NO_HATE = 30
 
-HATE_CSV = 'random_hate.csv'
+HATE_CSV = 'hate.csv'
 
 
 nlp = spacy.load("en_core_web_sm")
@@ -182,7 +182,7 @@ if __name__ == '__main__':
                         try:
                             amount = int(input("How many matches would you like to find? "))       
                         except ValueError:
-                            print("Not an integer! Try again.")
+                            print("Not d integer! Try again.")
                     
                 
                 total_subs += 1
