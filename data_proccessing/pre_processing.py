@@ -140,7 +140,6 @@ def remove_passive_comments(dataframe):
     return dataframe
 
 
-# TODO The patterns here are pretty weak. Work adding edge cases like :fuuuuuck
 def get_hate_matcher(nlp) -> Matcher:
     """A function for storing the patterns we would like to match.
 
@@ -151,28 +150,32 @@ def get_hate_matcher(nlp) -> Matcher:
         Matcher: A Matcher with all of the new patterns added.
     """
 
+    cyber_pat = [{"LOWER": {"IN": ["harass", "troll", "stalk", "stalker", "harassing", "trolling"]}}]
+    xeno_pat = [{"LOWER": {"IN": ["not welcome", "back to your country"]}}]
+    insult_pat = [{"LOWER": {"IN": [ "idiot", "moron", "dumbass", "loser", "scumbag"]}}]
     jew_pat = [{"LOWER": {"IN": ["jew", "hitler"]}}]
-    violence_pat = [{"LOWER": {"IN": ["waste of life", "kill", "hurt", "trash", "suicide"]}}]
-    pedo_pat = [{"LOWER": {"IN": ["pedo"]}}]
+    violence_pat = [{"LOWER": {"IN": ["waste of life", "kill", "hurt", "trash", "suicide", "cut", "hang"]}}]
+    pedo_pat = [{"LOWER": {"IN": ["pedo", "kid"]}}]
     women_pat = [{"LOWER": {"IN": ["woman", "women", "girls"]}}]
-    fat_pat = [{"LOWER": {"IN": ["fat"]}}]
+    fat_pat = [{"LOWER": {"IN": ["fat", "whale", "worthless", "pathetic", "ugly", "fatso"]}}]
     fuck_pat = [
         {"LOWER": {"IN": ["fuck", "fuk", "fuc", "fuq", "fak", "fucker"]}}]
     gay_pat = [
-        {"LOWER": {"IN": ["gay", "fag", "fagy", "fag", "faggot", "fuggot", "faggie"]}}]
+        {"LOWER": {"IN": ["gay", "fag", "fagy", "fag", "faggot", "fuggot", "faggie", "lgbt", "lgbtq", "dyke"]}}]
     trans_pat = [{"LOWER": {"IN": ["trans", "trannie", 'trani', "trany", "tranny"]}}]
     dick_pat = [{"LOWER": {"IN": ["dick", "dicker"]}}]
-    bitch_pat = [{"LOWER": {"IN": ["bitch", "biach", "bish"]}}]
+    bitch_pat = [{"LOWER": {"IN": ["bitch", "biach", "bish", "slut", "whore", "kitchen"]}}]
     pussy_pat = [{"LOWER": {"IN": ["pus", "pussy", "possy", "p3ssy"]}}]
     whore_pat = [{"LOWER": {"IN": ["whore", "hoe", "cunt"]}}]
     rape_pat = [{"LOWER": {"IN": ["rape", "ape", "r8pe"]}}]
+    other_swears = [{"LOWER": {"IN": ["cunt", "asshole"]}}]
     nigger_pat = [
         {"LOWER": {"IN": ["nig", "n1g", "nigger", "nigg3r", "n1gger", "negro"]}}]
     retard_pat = [{"LOWER": {"IN": ["tard", "retard", "tardo", "r-tard"]}}]
     race_pat = [{"LOWER": {"IN": ["chink", "jew", "cracker", "barbarian", "ching chong", "monkey", "redskin"]}}]
     matcher = Matcher(nlp.vocab)
-    matcher.add("pattern1", [fuck_pat, gay_pat, trans_pat, dick_pat, bitch_pat, jew_pat,
-                pussy_pat, whore_pat, rape_pat, whore_pat, nigger_pat, retard_pat, race_pat, fat_pat, women_pat, violence_pat, pedo_pat])
+    matcher.add("pattern1", [fuck_pat, insult_pat, other_swears, gay_pat, trans_pat, dick_pat, bitch_pat, jew_pat,
+                pussy_pat, cyber_pat, whore_pat, rape_pat, whore_pat, xeno_pat, nigger_pat, retard_pat, race_pat, fat_pat, women_pat, violence_pat, pedo_pat])
 
     return matcher
 
