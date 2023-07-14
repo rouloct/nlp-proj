@@ -85,7 +85,7 @@ def generate_multiclass_corpus(df: pd.DataFrame, nlp, categories):
     docs = [make_multi_classification_doc(
         row, nlp, categories) for index, row in df.iterrows()]
 
-    out_file = CORPUS_DIR / f"{df.name}.spacy"
+    out_file = CORPUS_DIR / f"{df.Name}.spacy"
     out_data = DocBin(docs=docs).to_bytes()
     with out_file.open("wb") as file_:
         file_.write(out_data)
