@@ -1,0 +1,8 @@
+{
+  "labels":[
+    "directed_hostility",
+    "disrespectful",
+    "innapropriate"
+  ],
+  "threshold":0.5
+}

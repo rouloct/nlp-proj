@@ -1,6 +1,8 @@
 import pandas as pd
 from data_processing import pre_processing as pp
 import spacy
+from spacy.tokens import DocBin
+
 
 nlp = spacy.blank("en")
 

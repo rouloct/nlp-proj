@@ -51,7 +51,7 @@ def make_multi_classification_doc(row: pd.Series, nlp, categories):
     doc.cats = {category: 0 for category in categories}
 
     for category in categories:
-        if row[category] == 1:
+        if row[category] == True:
             doc.cats[category] = 1
 
     return doc
@@ -67,7 +67,7 @@ def generate_binary_corpus(df: pd.DataFrame, nlp, categories):
     """
     docs = [make_binary_classification_doc(
         row, nlp, categories) for index, row in df.iterrows()]
-
+    
     out_file = CORPUS_DIR / f"{df.Name}.spacy"
     out_data = DocBin(docs=docs).to_bytes()
     with out_file.open("wb") as file_:
