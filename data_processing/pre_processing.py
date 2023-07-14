@@ -8,7 +8,7 @@ from spacy.matcher import PhraseMatcher
 
 
 ASSETS_DIR = Path(__file__).parent.parent / "assets"
-CORPUS_DIR = Path(__file__).parent.parent / "corpus"
+CORPUS_DIR = Path(__file__).parent.parent / "evaluation/corpus"
 
 # This could be a class, but will probably end up as just usefull functions
 
@@ -44,11 +44,11 @@ def make_multi_classification_doc(row: pd.Series, nlp, categories):
     Returns:
         spacy.Doc : The labeled doc
     """
+    
     doc = nlp(row["text"])
 
     # All categories other than the true ones get value 0
     doc.cats = {category: 0 for category in categories}
-    cats = doc.cats
 
     for category in categories:
         if row[category] == 1:
