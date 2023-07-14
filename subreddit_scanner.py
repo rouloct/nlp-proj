@@ -1,7 +1,8 @@
 import spacy
 import praw
 import pandas as pd
-from data_proccessing import pre_processing as pp
+from data_processing import pre_processing as pp
+import random
 
 REQ_HATE_TO_COMMENTS_RATIO = 1/40
 CHECK_HATE_AFTER = 140
@@ -39,7 +40,7 @@ def subreddit_scanner(sub_reddit, matches_to_find = 20):
     
     print(f"Scanning subreddit: r/{sub_reddit.display_name}.")
     
-    for index, submission in enumerate(sub_reddit.hot(limit=1000)):
+    for index, submission in enumerate(sub_reddit.hot(limit=500)):
         posts_in_sub += 1
         comments_in_post, matches = post_scanner(submission, sub_reddit)
         comments_in_sub += comments_in_post
@@ -185,7 +186,3 @@ if __name__ == '__main__':
         except Exception:
             print("Invalid subreddit. Try again")
                 
-            
-            
-                
-    
